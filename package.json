@@ -1,0 +1,70 @@
+{
+  "name": "@stefanprobst/remark-excerpt",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "git@github.com:stefanprobst/remark-excerpt.git",
+  "author": "Stefan Probst <stefanprobst@kolabnow.com>",
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "format": "prettier . -l --ignore-path .gitignore",
+    "format:fix": "yarn format --write",
+    "lint": "eslint . --ignore-path .gitignore",
+    "lint:fix": "yarn lint --fix",
+    "test": "jest"
+  },
+  "dependencies": {
+    "unist-util-visit-parents": "^3.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@stefanprobst/commitlint-config": "^1.0.1",
+    "@stefanprobst/eslint-config-node": "^1.0.6",
+    "@stefanprobst/prettier-config": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "jest": "^26.5.2",
+    "lint-staged": "^10.4.0",
+    "prettier": "^2.1.2",
+    "remark-parse": "^8.0.3",
+    "remark-stringify": "^8.1.1",
+    "strip-markdown": "^3.1.2",
+    "typescript": "^4.0.3",
+    "unified": "^9.2.0"
+  },
+  "engines": {
+    "node": ">=12.9",
+    "yarn": "^1"
+  },
+  "commitlint": {
+    "extends": [
+      "@stefanprobst/commitlint-config"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@stefanprobst/eslint-config-node"
+    ]
+  },
+  "husky": {
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+    "pre-commit": "lint-staged"
+  },
+  "jest": {},
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.(json|md)": "prettier --write"
+  },
+  "prettier": "@stefanprobst/prettier-config"
+}
