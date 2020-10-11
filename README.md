@@ -54,27 +54,19 @@ pipeline without truncating the original tree:
 ```js
 const remark = require('remark')
 const excerpt = require('@stefanprobst/remark-excerpt')
+const bridge = require('@stefanprobst/unified-util-bridge')
 
 const content = `
 This is some text. This is some more text.
 `
 
-const extractProcessor = remark().use(excerpt, { maxLength: 25 })
-const processor = remark().use(function bridge() {
-  return transformer
-  async function transformer(tree, file) {
-    const ast = await extractProcessor.run(tree)
-    file.data.excerpt = extractProcessor.stringify(ast)
-  }
-})
+const excerptProcessor = remark().use(excerpt, { maxLength: 25 })
+const processor = remark().use(bridge, 'excerpt', excerptProcessor)
 
-async function run() {
-  const { data, contents } = await processor.process(content)
+const { data, contents } = processor.processSync(content)
 
-  console.log(contents)
-  // This is some text. This is some more text.
-  console.log(data.excerpt)
-  // This is some text. This ...
-}
-run()
+console.log(contents)
+// This is some text. This is some more text.
+console.log(data.excerpt)
+// This is some text. This ...
 ```
