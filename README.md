@@ -45,6 +45,7 @@ console.log(processor.processSync(contentWithoutComment))
 - `maxLength`: truncate text at this length if no `<!-- excerpt -->` comment is
   found. defaults to 140 characters.
 - `ellipsis`: if text is truncated, add this ellipsis. defaults to "...".
+- `preferWordBoundaries`: truncate at word boundary. defaults to `false`.
 
 ## Usage in a processor pipeline
 

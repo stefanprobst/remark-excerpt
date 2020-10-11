@@ -6,7 +6,11 @@ const ELLIPSIS = '...'
 module.exports = attacher
 
 function attacher(options) {
-  const { maxLength = MAX_LENGTH, ellipsis = ELLIPSIS } = options || {}
+  const {
+    maxLength = MAX_LENGTH,
+    ellipsis = ELLIPSIS,
+    preferWordBoundaries = false,
+  } = options || {}
 
   return transformer
 
@@ -33,6 +37,9 @@ function attacher(options) {
 
       if (length > maxLength) {
         let truncated = node.value.slice(0, maxLength - length - 1)
+        if (preferWordBoundaries === true) {
+          truncated = truncated.slice(0, truncated.lastIndexOf(' '))
+        }
         let trimmed = truncated.replace(/[^\w]+$/, '')
 
         excerpt = { ...node, value: trimmed + ellipsis }

@@ -15,6 +15,13 @@ declare namespace excerpt {
      * @default "..."
      */
     ellipsis?: string
+
+    /**
+     * Truncate at word boundaries.
+     *
+     * @default false
+     */
+    preferWordBoundaries?: boolean
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@stefanprobst/remark-excerpt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/index.js",
   "types": "types",
   "repository": "git@github.com:stefanprobst/remark-excerpt.git",
