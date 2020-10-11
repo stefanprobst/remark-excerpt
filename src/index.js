@@ -32,10 +32,10 @@ function attacher(options) {
       length += node.value.length
 
       if (length > maxLength) {
-        excerpt = {
-          ...node,
-          value: node.value.slice(0, maxLength - length - 1) + ellipsis,
-        }
+        let truncated = node.value.slice(0, maxLength - length - 1)
+        let trimmed = truncated.replace(/[^\w]+$/, '')
+
+        excerpt = { ...node, value: trimmed + ellipsis }
 
         let child = node
         while (parents.length > 0) {

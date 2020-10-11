@@ -37,7 +37,7 @@ const processor = remark().use(excerpt, { maxLength: 25 })
 console.log(processor.processSync(contentWithComment))
 // This is some text.
 console.log(processor.processSync(contentWithoutComment))
-// This is some text. This ...
+// This is some text. This...
 ```
 
 ## Options
@@ -68,5 +68,5 @@ const { data, contents } = processor.processSync(content)
 console.log(contents)
 // This is some text. This is some more text.
 console.log(data.excerpt)
-// This is some text. This ...
+// This is some text. This...
 ```
