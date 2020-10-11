@@ -86,3 +86,36 @@ it('should use excerpt comment when after maxLength', async () => {
     "
   `)
 })
+
+it('should not truncate original tree', async () => {
+  const processor = unified()
+    .use(markdown, { position: false })
+    .use(function bridge() {
+      return transformer
+      function transformer(tree, file, next) {
+        const processor = unified()
+          .use(excerpt, { maxLength: 27 })
+          .use(strip)
+          .use(toMarkdown)
+        processor.run(tree, function done(err, ast) {
+          file.data.excerpt = processor.stringify(ast)
+          next(err)
+        })
+      }
+    })
+    .use(toMarkdown)
+
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+
+  const { data, contents } = await processor.process(fixture)
+  expect(contents).toMatchInlineSnapshot(`
+    "Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    "
+  `)
+  expect(data).toMatchInlineSnapshot(`
+    Object {
+      "excerpt": "Lorem ipsum dolor sit amet...
+    ",
+    }
+  `)
+})

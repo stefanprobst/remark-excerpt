@@ -24,20 +24,27 @@ function attacher(options) {
 
     /** truncate at maxLength */
     let length = 0
+    let excerpt
+    visit(tree, 'text', visitorImmutable)
+    return excerpt || tree
 
-    visit(tree, 'text', visitor)
-
-    function visitor(node, parents) {
+    function visitorImmutable(node, parents) {
       length += node.value.length
 
       if (length > maxLength) {
-        node.value = node.value.slice(0, maxLength - length - 1) + ellipsis
+        excerpt = {
+          ...node,
+          value: node.value.slice(0, maxLength - length - 1) + ellipsis,
+        }
 
         let child = node
         while (parents.length > 0) {
           let parent = parents.pop()
           let index = parent.children.indexOf(child)
-          parent.children.splice(index + 1)
+          excerpt = {
+            ...parent,
+            children: parent.children.slice(0, index).concat(excerpt),
+          }
           child = parent
         }
 
