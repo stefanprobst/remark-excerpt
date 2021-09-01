@@ -1,8 +1,9 @@
-const markdown = require('remark-parse')
-const toMarkdown = require('remark-stringify')
-const strip = require('strip-markdown')
-const unified = require('unified')
-const excerpt = require('../src/index')
+import markdown from 'remark-parse'
+import toMarkdown from 'remark-stringify'
+import strip from 'strip-markdown'
+import { unified } from 'unified'
+
+import excerpt from '../src'
 
 it('should generate excerpt with correct maxLength', async () => {
   const processor = unified()
@@ -152,12 +153,12 @@ it('should not truncate original tree', async () => {
 
   const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
-  const { data, contents } = await processor.process(fixture)
-  expect(contents).toMatchInlineSnapshot(`
+  const file = await processor.process(fixture)
+  expect(String(file)).toMatchInlineSnapshot(`
     "Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
     "
   `)
-  expect(data).toMatchInlineSnapshot(`
+  expect(file.data).toMatchInlineSnapshot(`
     Object {
       "excerpt": "Lorem ipsum dolor sit amet...
     ",

@@ -1,11 +1,9 @@
-const visit = require('unist-util-visit-parents')
+import { visitParents as visit } from 'unist-util-visit-parents'
 
 const MAX_LENGTH = 140
 const ELLIPSIS = '...'
 
-module.exports = attacher
-
-function attacher(options) {
+export default function attacher(options) {
   const {
     maxLength = MAX_LENGTH,
     ellipsis = ELLIPSIS,
@@ -23,7 +21,7 @@ function attacher(options) {
 
     if (commentIndex !== -1) {
       tree.children.splice(commentIndex)
-      return
+      return undefined
     }
 
     /** truncate at maxLength */
@@ -40,14 +38,14 @@ function attacher(options) {
         if (preferWordBoundaries === true) {
           truncated = truncated.slice(0, truncated.lastIndexOf(' '))
         }
-        let trimmed = truncated.replace(/[^\w]+$/, '')
+        const trimmed = truncated.replace(/[^\w]+$/, '')
 
         excerpt = { ...node, value: trimmed + ellipsis }
 
         let child = node
         while (parents.length > 0) {
-          let parent = parents.pop()
-          let index = parent.children.indexOf(child)
+          const parent = parents.pop()
+          const index = parent.children.indexOf(child)
           excerpt = {
             ...parent,
             children: parent.children.slice(0, index).concat(excerpt),
@@ -57,6 +55,8 @@ function attacher(options) {
 
         return visit.EXIT
       }
+
+      return undefined
     }
   }
 }

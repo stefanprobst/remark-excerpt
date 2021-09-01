@@ -17,8 +17,8 @@ truncated at `maxLength`.
 Examples:
 
 ```js
-const remark = require('remark')
-const excerpt = require('@stefanprobst/remark-excerpt')
+import { remark } from 'remark'
+import excerpt from '@stefanprobst/remark-excerpt'
 
 const contentWithComment = `
 This is some text.
@@ -53,9 +53,9 @@ It is possible to use the plugin in "bridge mode" in a `unified` processor
 pipeline without truncating the original tree:
 
 ```js
-const remark = require('remark')
-const excerpt = require('@stefanprobst/remark-excerpt')
-const bridge = require('@stefanprobst/unified-util-bridge')
+import { remark } from 'remark'
+import excerpt from '@stefanprobst/remark-excerpt'
+import bridge from '@stefanprobst/unified-util-bridge'
 
 const content = `
 This is some text. This is some more text.
