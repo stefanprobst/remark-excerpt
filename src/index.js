@@ -1,4 +1,4 @@
-import { visitParents as visit } from 'unist-util-visit-parents'
+import { visitParents as visit, EXIT } from 'unist-util-visit-parents'
 
 const MAX_LENGTH = 140
 const ELLIPSIS = '...'
@@ -53,7 +53,7 @@ export default function attacher(options) {
           child = parent
         }
 
-        return visit.EXIT
+        return EXIT
       }
 
       return undefined

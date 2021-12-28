@@ -1,4 +1,4 @@
-import markdown from 'remark-parse'
+import fromMarkdown from 'remark-parse'
 import toMarkdown from 'remark-stringify'
 import strip from 'strip-markdown'
 import { unified } from 'unified'
@@ -7,12 +7,12 @@ import excerpt from '../src'
 
 it('should generate excerpt with correct maxLength', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 27 })
     .use(strip)
     .use(toMarkdown)
 
-  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
   const result = await processor.process(fixture)
   expect(String(result)).toHaveLength(30) // maxLength + ellipsis length
@@ -20,11 +20,11 @@ it('should generate excerpt with correct maxLength', async () => {
 
 it('should keep markdown in excerpt', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 27 })
     .use(toMarkdown)
 
-  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
   const result = await processor.process(fixture)
   expect(String(result)).toMatchInlineSnapshot(`
@@ -35,11 +35,11 @@ it('should keep markdown in excerpt', async () => {
 
 it('should trim trailing whitespace in excerpt', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 23 })
     .use(toMarkdown)
 
-  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
   const result = await processor.process(fixture)
   expect(String(result)).toMatchInlineSnapshot(`
@@ -50,11 +50,11 @@ it('should trim trailing whitespace in excerpt', async () => {
 
 it('should trim trailing punctuation in excerpt', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 28 })
     .use(toMarkdown)
 
-  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
   const result = await processor.process(fixture)
   expect(String(result)).toMatchInlineSnapshot(`
@@ -65,11 +65,11 @@ it('should trim trailing punctuation in excerpt', async () => {
 
 it('should optionally truncate at word boundaries', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 25, preferWordBoundaries: true })
     .use(toMarkdown)
 
-  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
   const result = await processor.process(fixture)
   expect(String(result)).toMatchInlineSnapshot(`
@@ -80,11 +80,11 @@ it('should optionally truncate at word boundaries', async () => {
 
 it('should add custom ellipsis to excerpt', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 27, ellipsis: '…' })
     .use(toMarkdown)
 
-  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
+  const fixture = `Lorem ipsum **dolor** sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`
 
   const result = await processor.process(fixture)
   expect(String(result)).toMatchInlineSnapshot(`
@@ -95,7 +95,7 @@ it('should add custom ellipsis to excerpt', async () => {
 
 it('should generate excerpt until excerpt comment', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 27 })
     .use(strip)
     .use(toMarkdown)
@@ -115,7 +115,7 @@ it('should generate excerpt until excerpt comment', async () => {
 
 it('should use excerpt comment when after maxLength', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(excerpt, { maxLength: 27 })
     .use(strip)
     .use(toMarkdown)
@@ -135,7 +135,7 @@ it('should use excerpt comment when after maxLength', async () => {
 
 it('should not truncate original tree', async () => {
   const processor = unified()
-    .use(markdown, { position: false })
+    .use(fromMarkdown, { position: false })
     .use(function bridge() {
       return transformer
       function transformer(tree, file, next) {
